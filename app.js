@@ -1,6 +1,7 @@
 $(document).ready(function () 
 {
-    // Initialize Firebase
+    /*** Initialize Firebase ***/
+
     var config = {
         apiKey: "AIzaSyAq4yerWRu-IS27tvd4w7BZYWgS9d_-tPg",
         authDomain: "train-scheduler-f60a3.firebaseapp.com",
@@ -11,6 +12,8 @@ $(document).ready(function ()
     };
         
     firebase.initializeApp(config);
+
+    /*************************/
     
     var database = firebase.database();
     
@@ -29,6 +32,8 @@ $(document).ready(function ()
         frequency = $("#frequencyInput").val().trim();
 
         console.log(trainTime);
+
+        /*** Moment.js math to calculate Next Arrival & Minutes Away (Needs work) ***/
 
         var firstTimeConverted = moment(trainTime, "HH:mm").subtract(1, "years");
         console.log(moment(trainTime, "HH:mm"));
@@ -51,6 +56,9 @@ $(document).ready(function ()
 
         var nextArrival = moment(nextTrain).format("hh:mm");
 
+        /***************************************************************************/
+
+        /*** Push Train Schedule Values to Firebase ***/
 
         database.ref().push(
         {
@@ -62,9 +70,17 @@ $(document).ready(function ()
             minutesUntilTrain: minutesUntilTrain
         });
 
+        /**********************************************/
+
+        /*** Clear Form after Submission ***/
+
         $("#trainNameInput, #destinationInput, #trainTimeInput, #frequencyInput").val("");
+
+        /***********************************/
        
     });
+
+    /*** Add table row when page is loaded and data is added to Firebase ***/
 
     database.ref().on("child_added", function(snapshot)
     {
@@ -85,4 +101,6 @@ $(document).ready(function ()
     {
         console.log("Errors handled: " + errorObject.code);
     });
+
+    /***********************************************************************/
 });
