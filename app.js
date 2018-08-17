@@ -31,7 +31,8 @@ $(document).ready(function ()
         console.log(trainTime);
 
         var firstTimeConverted = moment(trainTime, "HH:mm").subtract(1, "years");
-        console.log(firstTimeConverted);
+        console.log(moment(trainTime, "HH:mm"));
+        console.log("FIRST TIME CONVERTED: " + firstTimeConverted);
 
         var currentTime = moment();
         console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
@@ -60,6 +61,8 @@ $(document).ready(function ()
             nextArrival: nextArrival,
             minutesUntilTrain: minutesUntilTrain
         });
+
+        $("#trainNameInput, #destinationInput, #trainTimeInput, #frequencyInput").val("");
        
     });
 
@@ -76,7 +79,7 @@ $(document).ready(function ()
             $("<td>").text(snapshot.val().minutesUntilTrain)
         );
 
-        $("#tableRows").append(newRow);
+        $("#tableRows").prepend(newRow);
 
     }, function(errorObject) 
     {
